@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact List</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="page-header">
+        <h2>New Contact:</h2>
+      <form id="newContact">
+        <div class="row">
+          <div id="contactType">
+            <label>Select contact type(s):</label>
+              <input type="checkbox" name="contactType" value="family"> Family
+              <input type="checkbox" name="contactType" value="friend" checked> Friend
+              <input type="checkbox" name="contactType" value="colleague"> Colleague
+              <input type="checkbox" name="contactType" value="other"> Other<br>
+          </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="input-group">
+                  <span class="input-group-addon">First Name: </span>
+                  <input id="firstName" type="text" class="form-control" value="tesfirst" required>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="input-group">
+                  <span class="input-group-addon">Last Name: </span>
+                  <input id="lastName" type="text" class="form-control" value="testlast" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="input-group">
+                  <span class="input-group-addon">E-mail address: </span>
+                  <input id="email" type="email" size="37" class="form-control" value="askldfj@gmail.com">
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="input-group">
+                  <span class="input-group-addon">Phone number:</span>
+                  <input id="phone" type="tel" size="35" class="form-control" value="111111111111">
+                </div>
+              </div>
+            </div>
+            <button id="addContact" type="submit" class="btn btn-info">Add Contact</button>
+        </form>
+    </div>
+  </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="col-xs-2">Last Name</th>
+          <th class="col-xs-2">First Name</th>
+          <th class="col-xs-3">Phone Number</th>
+          <th class="col-xs-4">E-mail Address</th>
+          <th class="col-xs-1">Delete Contact</th>
+        </tr>
+      </thead>
+      <tbody id="contacts">
+        <tr id="template">
+          <td class="firstName"></td>
+          <td class="lastName"></td>
+          <td class="phone"></td>
+          <td class="email">
+          <td class="deleteTransaction">
+            <button  type="button" class="btn-sm trashButton">
+              <span class="glyphicon glyphicon-trash"</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

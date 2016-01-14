@@ -1,0 +1,15 @@
+
+th{
+  border-bottom: 3px solid black;
+  padding-top: 3%;
+}
+
+
+#template{
+  display:none;
+}
+
+
+.input-group{
+  padding-bottom: 10px;
+}
