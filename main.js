@@ -77,6 +77,8 @@ function updateList() {
 function editContact(){
   editing = true;
   event.preventDefault();
+  $('h2').addClass("animated flash");
+  $('form').addClass("animated flash");
 
   var index = $(this).closest("tr").index();
   var editObj = contacts[index -1];
@@ -137,8 +139,10 @@ function filterContacts(){
 }
 
 function sortContacts(){
-  var sortby = $(this).data("sort")
-  contacts = _.sortBy(contacts, sortby);
+  var sortby = $(this).data("sort");
+  contacts = _.sortBy(contacts, function(o){
+    return o[sortby];
+  });
   updateList();
   saveToStorage();
 }
