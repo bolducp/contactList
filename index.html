@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Contact List</title>
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -23,13 +23,13 @@
               <div class="col-xs-6">
                 <div class="input-group">
                   <span class="input-group-addon">First Name: </span>
-                  <input id="firstName" type="text" class="form-control" value="tesfirst" required>
+                  <input id="firstName" type="text" class="form-control" required>
                 </div>
               </div>
               <div class="col-xs-6">
                 <div class="input-group">
                   <span class="input-group-addon">Last Name: </span>
-                  <input id="lastName" type="text" class="form-control" value="testlast" required>
+                  <input id="lastName" type="text" class="form-control" required>
                 </div>
               </div>
             </div>
@@ -37,19 +37,21 @@
               <div class="col-xs-6">
                 <div class="input-group">
                   <span class="input-group-addon">E-mail address: </span>
-                  <input id="email" type="email" size="37" class="form-control" value="askldfj@gmail.com">
+                  <input id="email" type="email" size="37" class="form-control">
                 </div>
               </div>
               <div class="col-xs-6">
                 <div class="input-group">
                   <span class="input-group-addon">Phone number:</span>
-                  <input id="phone" type="tel" size="35" class="form-control" value="111111111111">
+                  <input id="phone" type="text" class="form-control">
                 </div>
               </div>
             </div>
             <button id="addContact" type="submit" class="btn btn-info">Add Contact</button>
         </form>
+        <button id="editContact" type="submit" class="btn btn-info">Edit Contact</button>
     </div>
+
   </div>
 
     <table>
@@ -58,7 +60,8 @@
           <th class="col-xs-2">Last Name</th>
           <th class="col-xs-2">First Name</th>
           <th class="col-xs-3">Phone Number</th>
-          <th class="col-xs-4">E-mail Address</th>
+          <th class="col-xs-3">E-mail Address</th>
+          <th class="col-xs-1">Edit</th>
           <th class="col-xs-1">Delete Contact</th>
         </tr>
       </thead>
@@ -67,7 +70,8 @@
           <td class="firstName"></td>
           <td class="lastName"></td>
           <td class="phone"></td>
-          <td class="email">
+          <td class="email"></td>
+          <td><a class="edit">Edit</a></td>
           <td class="deleteTransaction">
             <button  type="button" class="btn-sm trashButton">
               <span class="glyphicon glyphicon-trash"</span>

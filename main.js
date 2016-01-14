@@ -3,7 +3,7 @@
 $(document).ready(init);
 
 var contacts = [];
-
+var editing = false;
 
 function init(){
   loadFromStorage();
@@ -12,8 +12,10 @@ function init(){
 }
 
 function clickHandler(){
-  $("form").submit(addContact);
-  //$("#contacts").on("click", ".trashButton", deleteTransaction); // deferred event handler
+  $("#newContact").submit(addContact);
+  $("tbody").on("click", ".trashButton", deleteContact);
+  $("tbody").on("click", ".edit", editContact);
+
 
 
   // $("#typeOfTransaction").change(filterTransactions);
@@ -34,44 +36,83 @@ function loadFromStorage() {
 }
 
 
-function deleteName(){
-  var index = $(this).index();
-  names.splice(index, 1);
-  updateList();
-  saveToStorage();
+function editContact(){
+  editing = true;
+  event.preventDefault();
+
+  var index = $(this).closest("tr").index();
+  var editObj = contacts[index -1];
+
+  console.log("object to edit", editObj);
+  $('h2').text("Edit Contact:");
+  //
+  $('#firstName').val(editObj["firstName"]);
+  $('#lastName').val(editObj["lastName"]);
+  $('#phone').val(editObj["phone"]);
+  $('#email').val(editObj["email"]);
+
+  $('#addContact').hide();
+  $('#editContact').show();
+  $("#editContact").click(makeEdits);
+
+  function makeEdits(){
+    editObj["firstName"] = $('#firstName').val();
+    editObj["lastName"] = $('#lastName').val();
+    editObj["phone"] = $('#phone').val();
+    editObj["email"] = $('#email').val();
+
+    updateList();
+    saveToStorage();
+    location.reload();
+  }
 }
 
 
 
 
+
+function deleteContact(){
+  var index = $(this).closest("tr").index();
+  spliceContact(index - 1);
+  updateList();
+  saveToStorage();
+}
+
+
+function spliceContact(index){
+  contacts.splice(index, 1);
+}
+
+
 function addContact(event){
   event.preventDefault();
-
+  if (editing){
+    return;
+  }
   var types = [];
   $("input:checkbox[name=contactType]:checked").each(function(){
     types.push($(this).val());
   });
   //updateBalance(transactionType, amount);
-  $("#newContact").trigger("reset"); // reset form
 
   var contact = {};
+
   contact["firstName"] = $('#firstName').val();
   contact["lastName"] = $('#lastName').val();
-  contact["phoneNumber"] = $('#phone').val();
+  contact["phone"] = $('#phone').val();
   contact["email"] = $('#email').val();
   contact["types"] = types;
 
   contacts.push(contact);
   saveToStorage();
   updateList();
-
-
+  $("#newContact").trigger("reset"); // reset form
 }
 
 
 function updateList() {
   var $tableBody = $('#contacts');
-  $tableBody.children().not("#template").empty();
+  $tableBody.children().not("#template").remove();
 
   var $contacts = contacts.map(function(contact) {
     var $contactRow = $("#template").clone();
