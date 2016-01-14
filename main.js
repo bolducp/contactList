@@ -15,14 +15,17 @@ function clickHandler(){
   $("#newContact").submit(addContact);
   $("tbody").on("click", ".trashButton", deleteContact);
   $("tbody").on("click", ".edit", editContact);
+  $(".sortable").click(sortContacts);
+  $("#typeOfContact").change(filterContacts);
 
-
-
-  // $("#typeOfTransaction").change(filterTransactions);
-  // $("#newTransaction").submit(addTransaction);
-  // $("#transactions").on("click", ".trashButton", deleteTransaction); // deferred event handler
 }
 
+function sortContacts(){
+  var sortby = $(this).data("sort")
+  contacts = _.sortBy(contacts, sortby).reverse();
+  updateList();
+  saveToStorage();
+}
 
 function saveToStorage() {
   localStorage.contacts = JSON.stringify(contacts);
@@ -43,14 +46,12 @@ function editContact(){
   var index = $(this).closest("tr").index();
   var editObj = contacts[index -1];
 
-  console.log("object to edit", editObj);
-  $('h2').text("Edit Contact:");
-  //
   $('#firstName').val(editObj["firstName"]);
   $('#lastName').val(editObj["lastName"]);
   $('#phone').val(editObj["phone"]);
   $('#email').val(editObj["email"]);
 
+  $('h2').text("Edit Contact:");
   $('#addContact').hide();
   $('#editContact').show();
   $("#editContact").click(makeEdits);
@@ -93,7 +94,6 @@ function addContact(event){
   $("input:checkbox[name=contactType]:checked").each(function(){
     types.push($(this).val());
   });
-  //updateBalance(transactionType, amount);
 
   var contact = {};
 
@@ -118,65 +118,40 @@ function updateList() {
     var $contactRow = $("#template").clone();
     $contactRow.removeAttr("id");
     // $tableRow.data("amount", getFormattedAmount(transactionType, amount));
+
+    var types = contact["types"];
+    for (var i = 0; i < types.length; i++){
+      $contactRow.addClass(types[i]);
+    }
     $contactRow.children(".firstName").text(contact["firstName"]);
     $contactRow.children(".lastName").text(contact["lastName"]);
     $contactRow.children(".phone").text(contact["phone"]);
     $contactRow.children(".email").text(contact["email"]);
     return $contactRow;
   });
-
   $tableBody.append($contacts);
 }
 
+function filterContacts(){
+  var contactType = $(this).val();
+  $("#contacts tr").hide();
 
-
-// function deleteTransaction(){
-//   var $currentRow = $(this).closest("tr");
-//   var rowAmount = $currentRow.data("amount");
-//
-//   undoTransaction(rowAmount);
-//   $currentRow.remove();
-// }
-//
-// function undoTransaction(rowAmount){
-//   account.balance -= rowAmount;
-//   $('h3').text("Current Account Balance: " + numeral(account["balance"]).format('$0,0.00'));
-//   $('h3').addClass("animated flash");
-//   setTimeout(function(){$('h3').removeClass("animated flash")}, 1000);
-// }
-//
-// function updateBalance(transactionType, amount){
-//   if (transactionType === "deposit"){
-//     account.balance += amount;
-//   } else{
-//     account.balance -= amount;
-//   }
-//   $('h3').text("Current Account Balance: " + numeral(account["balance"]).format('$0,0.00'));
-//   $('h3').addClass("animated flash");
-//   setTimeout(function(){$('h3').removeClass("animated flash")}, 1000);
-// }
-//
-// function getFormattedAmount(transactionType, amount){
-//   if (transactionType === "deposit"){
-//     return amount;
-//   } else{
-//     return amount * -1;
-//   }
-// }
-//
-// function filterTransactions(){
-//   var transactionType = $(this).val();
-//   $("#transactions tr").hide();
-//
-//   switch(transactionType){
-//     case "deposits":
-//       $(".deposit").show();
-//       break;
-//     case "withdrawals":
-//       $('.withdrawals').show();
-//       break;
-//     default:
-//       $('#transactions tr').not("#template").show();
-//       break;
-//   }
-// }
+  switch(contactType){
+    case "family":
+      console.log("family");
+      $(".family").show();
+      break;
+    case "friend":
+      $('.friend').show();
+      break;
+    case "colleague":
+      $('.colleague').show();
+      break;
+    case "other":
+      $('.other').show();
+      break;
+    default:
+      $('#contacts tr').not("#template").show();
+      break;
+  }
+}

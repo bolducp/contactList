@@ -26,3 +26,7 @@ th{
 .input-group{
   padding-bottom: 10px;
 }
+
+.sortable{
+  cursor:pointer;
+}
