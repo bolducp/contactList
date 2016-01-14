@@ -17,14 +17,6 @@ function clickHandler(){
   $("tbody").on("click", ".edit", editContact);
   $(".sortable").click(sortContacts);
   $("#typeOfContact").change(filterContacts);
-
-}
-
-function sortContacts(){
-  var sortby = $(this).data("sort")
-  contacts = _.sortBy(contacts, sortby).reverse();
-  updateList();
-  saveToStorage();
 }
 
 function saveToStorage() {
@@ -38,6 +30,49 @@ function loadFromStorage() {
   contacts = JSON.parse(localStorage.contacts);
 }
 
+function addContact(event){
+  event.preventDefault();
+  if (editing){
+    return;
+  }
+  var types = [];
+  $("input:checkbox[name=contactType]:checked").each(function(){
+    types.push($(this).val());
+  });
+
+  var contact = {};
+  contact["firstName"] = $('#firstName').val();
+  contact["lastName"] = $('#lastName').val();
+  contact["phone"] = $('#phone').val();
+  contact["email"] = $('#email').val();
+  contact["types"] = types;
+
+  contacts.push(contact);
+  saveToStorage();
+  updateList();
+  $("#newContact").trigger("reset");
+}
+
+function updateList() {
+  var $tableBody = $('#contacts');
+  $tableBody.children().not("#template").remove();
+
+  var $contacts = contacts.map(function(contact) {
+    var $contactRow = $("#template").clone();
+    $contactRow.removeAttr("id");
+
+    var types = contact["types"];
+    for (var i = 0; i < types.length; i++){
+      $contactRow.addClass(types[i]);
+    }
+    $contactRow.children(".firstName").text(contact["firstName"]);
+    $contactRow.children(".lastName").text(contact["lastName"]);
+    $contactRow.children(".phone").text(contact["phone"]);
+    $contactRow.children(".email").text(contact["email"]);
+    return $contactRow;
+  });
+  $tableBody.append($contacts);
+}
 
 function editContact(){
   editing = true;
@@ -61,16 +96,11 @@ function editContact(){
     editObj["lastName"] = $('#lastName').val();
     editObj["phone"] = $('#phone').val();
     editObj["email"] = $('#email').val();
-
     updateList();
     saveToStorage();
     location.reload();
   }
 }
-
-
-
-
 
 function deleteContact(){
   var index = $(this).closest("tr").index();
@@ -79,57 +109,8 @@ function deleteContact(){
   saveToStorage();
 }
 
-
 function spliceContact(index){
   contacts.splice(index, 1);
-}
-
-
-function addContact(event){
-  event.preventDefault();
-  if (editing){
-    return;
-  }
-  var types = [];
-  $("input:checkbox[name=contactType]:checked").each(function(){
-    types.push($(this).val());
-  });
-
-  var contact = {};
-
-  contact["firstName"] = $('#firstName').val();
-  contact["lastName"] = $('#lastName').val();
-  contact["phone"] = $('#phone').val();
-  contact["email"] = $('#email').val();
-  contact["types"] = types;
-
-  contacts.push(contact);
-  saveToStorage();
-  updateList();
-  $("#newContact").trigger("reset"); // reset form
-}
-
-
-function updateList() {
-  var $tableBody = $('#contacts');
-  $tableBody.children().not("#template").remove();
-
-  var $contacts = contacts.map(function(contact) {
-    var $contactRow = $("#template").clone();
-    $contactRow.removeAttr("id");
-    // $tableRow.data("amount", getFormattedAmount(transactionType, amount));
-
-    var types = contact["types"];
-    for (var i = 0; i < types.length; i++){
-      $contactRow.addClass(types[i]);
-    }
-    $contactRow.children(".firstName").text(contact["firstName"]);
-    $contactRow.children(".lastName").text(contact["lastName"]);
-    $contactRow.children(".phone").text(contact["phone"]);
-    $contactRow.children(".email").text(contact["email"]);
-    return $contactRow;
-  });
-  $tableBody.append($contacts);
 }
 
 function filterContacts(){
@@ -138,7 +119,6 @@ function filterContacts(){
 
   switch(contactType){
     case "family":
-      console.log("family");
       $(".family").show();
       break;
     case "friend":
@@ -154,4 +134,11 @@ function filterContacts(){
       $('#contacts tr').not("#template").show();
       break;
   }
+}
+
+function sortContacts(){
+  var sortby = $(this).data("sort")
+  contacts = _.sortBy(contacts, sortby);
+  updateList();
+  saveToStorage();
 }

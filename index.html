@@ -3,19 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Contact List</title>
+  <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <div class="page-header">
-        <h2>New Contact:</h2>
+      <h1>Welcome to Paige's Contact List App!</h1>
+    </div>
+    <div class="page-header">
+        <div id="header" class="row">
+          <h2>New Contact:</h2>
+        </div>
       <form id="newContact">
         <div class="row">
           <div id="contactType">
             <label>Select contact type(s):</label>
               <input type="checkbox" name="contactType" value="family"> Family
-              <input type="checkbox" name="contactType" value="friend" checked> Friend
+              <input type="checkbox" name="contactType" value="friend"> Friend
               <input type="checkbox" name="contactType" value="colleague"> Colleague
               <input type="checkbox" name="contactType" value="other"> Other<br>
           </div>
@@ -48,12 +55,11 @@
               </div>
             </div>
             <button id="addContact" type="submit" class="btn btn-info">Add Contact</button>
-        </form>
-        <button id="editContact" type="submit" class="btn btn-info">Edit Contact</button>
+          </form>
+          <button id="editContact" type="submit" class="btn btn-info">Edit Contact</button>
+        </div>
     </div>
-
-  </div>
-        <div class="row">
+      <div class="row">
        <div class="col-md-3 col-md-offset-9" id="display">
          <label>Display options: </label>
          <select id="typeOfContact">
@@ -91,12 +97,9 @@
         </tr>
       </tbody>
     </table>
-
-
-
-
-
-
+    <div class="row">
+     <div class="col-xs-12" id="footer"></div>
+   </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
